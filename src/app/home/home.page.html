@@ -13,68 +13,83 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="flex-container">
-    <div *ngIf="blocLogin">
-      <div>
-        <h3>Votre pseudo</h3>
-      </div>
-      <div>
-        <input type="string" [(ngModel)]="pseudo"/>
-      </div>
-      <div>
-        <h3>Difficulté</h3>
-      </div>
-      <div>
-        <select [(ngModel)]="level">
-          <option value="easy">easy</option>
-          <option value="medium">medium</option>
-          <option value="hard">hard</option>
-        </select>
-      </div>
-      <div>
-        <ion-checkbox [(ngModel)]="save"></ion-checkbox>
-        <ion-label>Sauvegarder mes informations</ion-label>
-      </div>
-      <div class="error">
-        <p *ngIf="error && error.length > 0 ">{{error}}</p>
-        <button (click)="start()">Commencer</button>
-      </div>
-    </div>
-    
-    <div *ngIf="blocFirstQuestion">
-      <div>
-        <p>Bienvenue {{pseudo}}</p>
-      </div>
-      <div>
-        <ion-list radio-group (ionChange)="firstQuestion($event)">
-          <ion-radio-group value="couleur">
-            <ion-list-header>
-              <ion-label>De quelle couleur est le cheval blanc d'henry IV ?</ion-label>
-            </ion-list-header>
-        
+  <div class="container">
+    <ion-grid>
+      <ion-row>
+        <ion-list *ngIf="!blocFirstQuestion">
+          <ion-col size="8">
             <ion-item>
-              <ion-label>Réponse A</ion-label>
-              <ion-radio slot="start" value="responseA"></ion-radio>
+              <ion-label position="stacked">Votre pseudo <ion-text color="danger">*</ion-text></ion-label>
+              <ion-input required type="string" [(ngModel)]="pseudo"></ion-input>
             </ion-item>
-        
+          </ion-col>
+          <ion-col size="8">
             <ion-item>
-              <ion-label>Réponse B</ion-label>
-              <ion-radio slot="start" value="responseB"></ion-radio>
+              <ion-label>Difficulté</ion-label>
+              <ion-select required [(ngModel)]="level">
+                <ion-select-option value="easy">Facile</ion-select-option>
+                <ion-select-option value="medium">Moyen</ion-select-option>
+                <ion-select-option value="hard">Difficile</ion-select-option>
+              </ion-select>
             </ion-item>
-        
+          </ion-col> 
+          <ion-col size="8">
             <ion-item>
-              <ion-label>Réponse C</ion-label>
-              <ion-radio slot="start" value="responseC"></ion-radio>
+              <ion-toggle [(ngModel)]="save" slot="start" name="blueberry" checked></ion-toggle>
+              <ion-label>Blueberry</ion-label>
             </ion-item>
+          </ion-col>  
+          <ion-col size="8">
+            <div class="error">
+              <p *ngIf="error && error.length > 0 ">{{error}}</p>
+              <section class="full-width">
+                <ion-button (click)="start()" expand="full" color="secondary">A full-width button</ion-button>
+              </section>
+            </div>
+          </ion-col>
+        </ion-list>
+      </ion-row>
+    </ion-grid>
+  </div>  
 
-            <ion-item>
-              <ion-label>Réponse D</ion-label>
-              <ion-radio slot="start" value="responseD"></ion-radio>
-            </ion-item>
+    <div class="container" *ngIf="blocFirstQuestion"> <ion-text color="primary"> <p>Bienvenue {{ pseudo }}</p> </ion-text>
+      <ion-grid>
+         <ion-row>
+          <ion-list radio-group (ionChange)="firstQuestion($event)">
+            <ion-radio-group value="couleur">
+              <ion-col size="6">
+                <ion-list-header>
+                  <ion-label>De quelle couleur est le cheval blanc d'henry IV ?</ion-label>
+                </ion-list-header>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>Réponse A</ion-label>
+                  <ion-radio slot="start" value="responseA"></ion-radio>
+                </ion-item>
+              </ion-col>  
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>Réponse B</ion-label>
+                  <ion-radio slot="start" value="responseB"></ion-radio>
+                </ion-item>
+              </ion-col>  
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>Réponse C</ion-label>
+                  <ion-radio slot="start" value="responseC"></ion-radio>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>Réponse D</ion-label>
+                  <ion-radio slot="start" value="responseD"></ion-radio>
+                </ion-item>
+              </ion-col>
           </ion-radio-group>
         </ion-list>
-      </div>
-    </div>
-    <button *ngIf="buttonNextQuestion"> Question suivante </button>
+      </ion-row>
+     </ion-grid>
+    <ion-button *ngIf="buttonNextQuestion" expand="full" color="secondary"> Question suivante </ion-button>
   </div>
 </ion-content>

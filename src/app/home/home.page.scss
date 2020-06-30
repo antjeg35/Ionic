@@ -1,16 +1,20 @@
-#flex-container {
-  position: absolute;
+.container {
   display: flex;
-  flex-direction: column;
-}
-
-
-#flex-container div {
-  font-size: 16px;
-  justify-items: center;
   justify-content: center;
-  min-height: 50px;
+  align-items: center;
 }
+
+ion-grid {
+  height: 80%;
+  width: 100%;
+  align-content: center;
+}
+
+ion-row {
+  justify-content: center;
+  align-content: center;
+}
+
 
 .error{
   color:red;

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -10,21 +11,27 @@ export class HomePage {
   level= '';
   save= false;
   error= '';
-  blocLogin= true;
   blocFirstQuestion = false;
   buttonNextQuestion = false;
 
-  constructor() {}
+  constructor(public toastController: ToastController) {}
   
+  async invaliPseudoToast() {
+    const toast = await this.toastController.create({
+      message: 'Veuillez rentrer un pseudo ou une difficulté correcte.',
+      duration: 4000,
+      color: 'danger'
+    });
+    toast.present();
+  }
+
 
   start(){
     this.error = "";
     if(this.pseudo.length < 3 || this.level === ""){
-      return this.error = 'Veuillez rentrer un pseudo ou une difficulté correcte'
+      return this.invaliPseudoToast();
     } else{
-      this.blocFirstQuestion = true;
-      this.blocLogin = false;
-      return;
+      return this.blocFirstQuestion = true;
     }
   }
 
@@ -33,7 +40,4 @@ export class HomePage {
       return this.buttonNextQuestion = true;
     }
   }
-
-
-
 }
