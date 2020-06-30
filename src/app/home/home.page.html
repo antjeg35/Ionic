@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Open Trivia
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,72 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Open Trivia</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div id="flex-container">
+    <div *ngIf="blocLogin">
+      <div>
+        <h3>Votre pseudo</h3>
+      </div>
+      <div>
+        <input type="string" [(ngModel)]="pseudo"/>
+      </div>
+      <div>
+        <h3>Difficulté</h3>
+      </div>
+      <div>
+        <select [(ngModel)]="level">
+          <option value="easy">easy</option>
+          <option value="medium">medium</option>
+          <option value="hard">hard</option>
+        </select>
+      </div>
+      <div>
+        <ion-checkbox [(ngModel)]="save"></ion-checkbox>
+        <ion-label>Sauvegarder mes informations</ion-label>
+      </div>
+      <div class="error">
+        <p *ngIf="error && error.length > 0 ">{{error}}</p>
+        <button (click)="start()">Commencer</button>
+      </div>
+    </div>
+    
+    <div *ngIf="blocFirstQuestion">
+      <div>
+        <p>Bienvenue {{pseudo}}</p>
+      </div>
+      <div>
+        <ion-list radio-group (ionChange)="firstQuestion($event)">
+          <ion-radio-group value="couleur">
+            <ion-list-header>
+              <ion-label>De quelle couleur est le cheval blanc d'henry IV ?</ion-label>
+            </ion-list-header>
+        
+            <ion-item>
+              <ion-label>Réponse A</ion-label>
+              <ion-radio slot="start" value="responseA"></ion-radio>
+            </ion-item>
+        
+            <ion-item>
+              <ion-label>Réponse B</ion-label>
+              <ion-radio slot="start" value="responseB"></ion-radio>
+            </ion-item>
+        
+            <ion-item>
+              <ion-label>Réponse C</ion-label>
+              <ion-radio slot="start" value="responseC"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Réponse D</ion-label>
+              <ion-radio slot="start" value="responseD"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </div>
+    </div>
+    <button *ngIf="buttonNextQuestion"> Question suivante </button>
   </div>
 </ion-content>

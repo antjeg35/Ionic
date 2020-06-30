@@ -1,5 +1,7 @@
 {
   "name": "ionicEniAntoine",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
