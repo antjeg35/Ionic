@@ -1,29 +1,31 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 
 @Injectable()
 export class OpenTrivialService {
 
+    constructor(private httpClient: HttpClient){}
+
     public getQuestions (nbQuestions: number, level: string):Promise<Array<any>> {
         return new Promise((resolve, reject)=> {
-            resolve([
-                { 
-                    category: "Entertainment: Japanese Anime & Manga", 
-                    type: "multiple", 
-                    difficulty: "easy", 
-                    question: "In &quot;Fairy Tail&quot;, what is the nickname of Natsu Dragneel?", 
-                    correct_answer: "The Salamander", 
-                    incorrect_answers: ["The Dragon Slayer", "The Dragon", "The Demon"] 
-                },
-                { 
-                    category: "Entertainment: Video Games", 
-                    type: "boolean", 
-                    difficulty: "medium", 
-                    question: "&quot;Return to Castle Wolfenstein&quot; was the only game of the Wolfenstein series where you don&#039;t play as William &quot;B.J.&quot; Blazkowicz.", 
-                    correct_answer: "False", 
-                    incorrect_answers: ["True"] 
+            let params = new HttpParams();
+            params = params.append('amount', String(nbQuestions));
+            params = params.append('difficulty',level);
+            this.httpClient.get('https://opentdb.com/api.php', {
+                params: params
+            })
+            .toPromise()
+            .then((response)=>{
+                if(response && response['results']){
+                    resolve(response['results']);
+                }else{
+                    reject('Le serveur a renvoyé une erreur inattendue');
                 }
-            ])
+            })
+            .catch((error)=> {
+                reject(error);
+            })
         })
     }
 

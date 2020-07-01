@@ -6,67 +6,47 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Open Trivia</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="ion-padding">
+    <div *ngIf="!beginGame">
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Votre pseudo</ion-label>
+          <ion-input type="string" [(ngModel)]="pseudo"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Difficulté</ion-label>
+          <ion-select [(ngModel)]="difficulte">
+            <ion-select-option value="easy">Easy</ion-select-option>
+            <ion-select-option value="medium">Medium</ion-select-option>
+            <ion-select-option value="hard">Hard</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-toggle [(ngModel)]="sauvegarder"></ion-toggle> Sauvegarder mes informations
+        </ion-item>
+      </ion-list>
+      <ion-button expand="full" (click)="commencer()">Commencer</ion-button>
+    </div>
 
-  <div class="container">
-    <ion-grid>
-      <ion-row>
-        <ion-list *ngIf="!blocFirstQuestion">
-          <ion-col size="8">
-            <ion-item>
-              <ion-label position="stacked">Votre pseudo <ion-text color="danger">*</ion-text>
-              </ion-label>
-              <ion-input required type="string" [(ngModel)]="pseudo"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="8">
-            <ion-item>
-              <ion-label>Difficulté</ion-label>
-              <ion-select required [(ngModel)]="level">
-                <ion-select-option value="easy">Facile</ion-select-option>
-                <ion-select-option value="medium">Moyen</ion-select-option>
-                <ion-select-option value="hard">Difficile</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
-          <ion-col size="8">
-            <ion-item>
-              <ion-toggle [(ngModel)]="save" slot="start" name="blueberry" checked></ion-toggle>
-              <ion-label>Se souvenir de moi</ion-label>
-            </ion-item>
-          </ion-col>
-          <ion-col size="8">
-            <div class="error">
-              <p *ngIf="error && error.length > 0 ">{{error}}</p>
-              <section class="full-width">
-                <ion-button (click)="start()" expand="full" color="secondary">A full-width button</ion-button>
-              </section>
-            </div>
-          </ion-col>
-        </ion-list>
-      </ion-row>
-    </ion-grid>
-  </div>
+    <div *ngIf="beginGame">
+      <ion-text color="primary">
+        <p class="ion-text-center">Bienvenue {{ pseudo }}</p>
+      </ion-text>
 
-  
-
-  <div *ngIf="blocFirstQuestion">
-    <ion-text class="ion-text-center" color="primary">
-      <p>Bienvenue {{ pseudo }}</p>
-    </ion-text>
-    <ion-grid>
-      <ion-row *ngFor="let responsePossible of currentQuestion.incorrect_answers">
-        <ion-col size="6">
-          <ion-button (click)="reponse(responsePossible)" expand="full"  [ngClass]="{'falseResponse': responsePossible != currentQuestion.correct_answer, 'trueResponse': responsePossible == currentQuestion.correct_answer}" >{{responsePossible}}</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <ion-button *ngIf="buttonNextQuestion && !endGame" expand="full" color="secondary" (click)="nextQuestion()"> Question suivante </ion-button>
-    <ion-button *ngIf="buttonNextQuestion && endGame" expand="full" (click)="retour()">Voir mon score</ion-button>
+      <h3 class="ion-text-center" [innerHTML]="questionCourante.question" *ngIf="questionCourante"></h3>
+      <ion-grid *ngIf="questionCourante && questionCourante.answers">
+        <ion-row>
+          <ion-col size="6" *ngFor="let answer of questionCourante.answers">
+            <ion-button color="transparent" (click)="reponse(answer)" expand="full"
+              [ngClass]="{'good' : nextQuestion && answer.correct, 'bad' : nextQuestion && !answer.correct, unknown: !nextQuestion}">
+              {{ answer.answer }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-button *ngIf="nextQuestion && !endGame" expand="full" (click)="questionSuivante()">Question suivante
+      </ion-button>
+      <ion-button *ngIf="nextQuestion && endGame" expand="full" (click)="retour()">Voir mon score</ion-button>
+    </div>
   </div>
 </ion-content>

@@ -15,11 +15,10 @@ ion-row {
   align-content: center;
 }
 
+.error { color: red; } 
 
-.error{
-  color:red;
-}
+.good { background: green; } 
 
-.trueResponse { background: green; } 
+.bad { background: red; } 
 
-.falseResponse { background: red; }
+.unknown { background: lightslategray; }
