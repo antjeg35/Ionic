@@ -19,7 +19,8 @@
         <ion-list *ngIf="!blocFirstQuestion">
           <ion-col size="8">
             <ion-item>
-              <ion-label position="stacked">Votre pseudo <ion-text color="danger">*</ion-text></ion-label>
+              <ion-label position="stacked">Votre pseudo <ion-text color="danger">*</ion-text>
+              </ion-label>
               <ion-input required type="string" [(ngModel)]="pseudo"></ion-input>
             </ion-item>
           </ion-col>
@@ -32,13 +33,13 @@
                 <ion-select-option value="hard">Difficile</ion-select-option>
               </ion-select>
             </ion-item>
-          </ion-col> 
+          </ion-col>
           <ion-col size="8">
             <ion-item>
               <ion-toggle [(ngModel)]="save" slot="start" name="blueberry" checked></ion-toggle>
-              <ion-label>Blueberry</ion-label>
+              <ion-label>Se souvenir de moi</ion-label>
             </ion-item>
-          </ion-col>  
+          </ion-col>
           <ion-col size="8">
             <div class="error">
               <p *ngIf="error && error.length > 0 ">{{error}}</p>
@@ -50,46 +51,22 @@
         </ion-list>
       </ion-row>
     </ion-grid>
-  </div>  
+  </div>
 
-    <div class="container" *ngIf="blocFirstQuestion"> <ion-text color="primary"> <p>Bienvenue {{ pseudo }}</p> </ion-text>
-      <ion-grid>
-         <ion-row>
-          <ion-list radio-group (ionChange)="firstQuestion($event)">
-            <ion-radio-group value="couleur">
-              <ion-col size="6">
-                <ion-list-header>
-                  <ion-label>De quelle couleur est le cheval blanc d'henry IV ?</ion-label>
-                </ion-list-header>
-              </ion-col>
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label>Réponse A</ion-label>
-                  <ion-radio slot="start" value="responseA"></ion-radio>
-                </ion-item>
-              </ion-col>  
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label>Réponse B</ion-label>
-                  <ion-radio slot="start" value="responseB"></ion-radio>
-                </ion-item>
-              </ion-col>  
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label>Réponse C</ion-label>
-                  <ion-radio slot="start" value="responseC"></ion-radio>
-                </ion-item>
-              </ion-col>
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label>Réponse D</ion-label>
-                  <ion-radio slot="start" value="responseD"></ion-radio>
-                </ion-item>
-              </ion-col>
-          </ion-radio-group>
-        </ion-list>
+  
+
+  <div *ngIf="blocFirstQuestion">
+    <ion-text class="ion-text-center" color="primary">
+      <p>Bienvenue {{ pseudo }}</p>
+    </ion-text>
+    <ion-grid>
+      <ion-row *ngFor="let responsePossible of currentQuestion.incorrect_answers">
+        <ion-col size="6">
+          <ion-button (click)="reponse(responsePossible)" expand="full"  [ngClass]="{'falseResponse': responsePossible != currentQuestion.correct_answer, 'trueResponse': responsePossible == currentQuestion.correct_answer}" >{{responsePossible}}</ion-button>
+        </ion-col>
       </ion-row>
-     </ion-grid>
-    <ion-button *ngIf="buttonNextQuestion" expand="full" color="secondary"> Question suivante </ion-button>
+    </ion-grid>
+    <ion-button *ngIf="buttonNextQuestion && !endGame" expand="full" color="secondary" (click)="nextQuestion()"> Question suivante </ion-button>
+    <ion-button *ngIf="buttonNextQuestion && endGame" expand="full" (click)="retour()">Voir mon score</ion-button>
   </div>
 </ion-content>
