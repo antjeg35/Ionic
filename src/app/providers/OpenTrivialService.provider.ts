@@ -7,11 +7,11 @@ export class OpenTrivialService {
 
     constructor(private httpClient: HttpClient){}
 
-    public getQuestions (nbQuestions: number, level: string):Promise<Array<any>> {
+    public getQuestions (nbQuestions: number, difficulte: string):Promise<Array<any>> {
         return new Promise((resolve, reject)=> {
             let params = new HttpParams();
             params = params.append('amount', String(nbQuestions));
-            params = params.append('difficulty',level);
+            params = params.append('difficulty',difficulte);
             this.httpClient.get('https://opentdb.com/api.php', {
                 params: params
             })

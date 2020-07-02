@@ -1,0 +1,20 @@
+ion-grid {
+
+    width: 100%;
+    align-content: center;
+
+    ion-row {
+        justify-content: center;
+        align-content: center;
+      }
+      
+      .error { color: red; } 
+      
+      .good { background: green; } 
+      
+      .bad { background: red; } 
+      
+      .unknown { background: lightslategray; }
+}
+  
+  
